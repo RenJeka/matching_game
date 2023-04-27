@@ -1,6 +1,7 @@
 import {GridItem} from "./GridItem.js";
 
 export class MatchGrid {
+
     _grid = document.querySelector("#playground-grid");
 
     _width;
@@ -12,12 +13,21 @@ export class MatchGrid {
     _themeFont;
     _maxWidth = 1000;
     _maxHeight = 1000;
-    _maxColumns = 10;
-    _maxRows = 10;
+    _maxColumns = 4;
+    _maxRows = 4;
     _maxTime = 1000;
     _defaultThemeColor = '#002233';
     _defaultFontColor = '#000000';
     _gridGap = 5;
+    _gridItems = [];
+
+    get gridItems() {
+        return this._gridItems;
+    }
+
+    set gridItems(value) {
+        this._gridItems = value;
+    }
 
     constructor(width, height, columnsNumber, rowsNumber, timeLimit, themeColor, themeFont) {
 
@@ -108,7 +118,8 @@ export class MatchGrid {
 
         for (const gridItemId of gridItemIdsSet) {
             const gridItem = new GridItem(gridItemId, this.gridItemSize.width, this.gridItemSize.height);
-            gridItem.setText(idTextPairsMap.get(gridItemId), 36);
+            this._gridItems.push(gridItem);
+            gridItem.setTextToItem(idTextPairsMap.get(gridItemId), 36);
             this._grid.appendChild(gridItem);
         }
     }

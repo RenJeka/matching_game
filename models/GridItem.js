@@ -1,4 +1,42 @@
 export class GridItem extends HTMLDivElement{
+
+    _isVisible = false;
+    _isGuessed = false;
+    _selected = false;
+    _text = '';
+
+    get text() {
+        return this._text.toUpperCase();
+    }
+
+    set text(value) {
+        this._text = value;
+    }
+
+    get isVisible() {
+        return this._isVisible;
+    }
+
+    set isVisible(value) {
+        this._isVisible = value;
+    }
+
+    get isGuessed() {
+        return this._isGuessed;
+    }
+
+    set isGuessed(value) {
+        this._isGuessed = value;
+    }
+
+    get selected() {
+        return this._selected;
+    }
+
+    set selected(value) {
+        this._selected = value;
+    }
+
     constructor(id, width, height, color) {
         super();
         this.setAttribute('id', id);
@@ -17,7 +55,7 @@ export class GridItem extends HTMLDivElement{
         return consistentIdsSet;
     }
 
-    static generateRandomText(textLength, characters= 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') {
+    static generateRandomText(textLength, characters= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
         characters = Array.isArray(characters) ? characters.join('') : characters.toString();
         let result = '';
         const charactersLength = characters.length;
@@ -62,8 +100,37 @@ export class GridItem extends HTMLDivElement{
         });
     }
 
-    setText(text, fontSize) {
+    setTextToItem(text, fontSize) {
+        this._text = text.toString();
         this.innerText = text.toString();
         this.style.fontSize = (Math.abs(parseInt(fontSize)) || 16) + 'px';
+    }
+
+    selectItem() {
+        this._toggleSelected();
+        if (this.selected) {
+            this.classList.toggle('item-selected');
+        } else {
+            this.classList.remove('item-selected');
+        }
+    }
+
+    unselectItem() {
+        this.selected = false;
+        this.classList.remove('item-selected');
+    }
+
+    markGuessed() {
+        this.isGuessed = true;
+        this.classList.add('item-guessed');
+    }
+
+    unmarkGuessed() {
+        this.isGuessed = false;
+        this.classList.remove('item-guessed');
+    }
+
+    _toggleSelected(){
+        this.selected = !this.selected;
     }
 }

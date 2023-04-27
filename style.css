@@ -42,4 +42,13 @@ header button {
     justify-content: center;
     align-content: center;
     text-transform: uppercase;
+    cursor: pointer;
+}
+
+.grid-item.item-selected {
+    background-color: orange !important;
+}
+
+.grid-item.item-guessed {
+    background-color: #144a9d !important;
 }
