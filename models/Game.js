@@ -2,6 +2,7 @@
 export class Game {
 
     _grid;
+    _scoreHtmlElement;
     _selectedFirstItem = null;
     _selectedSecondItem = null;
     _isMatch = false;
@@ -14,6 +15,14 @@ export class Game {
 
     set grid(value) {
         this._grid = value;
+    }
+
+    get scoreElement() {
+        return this._scoreElement;
+    }
+
+    set scoreElement(value) {
+        this._scoreElement = value;
     }
 
     get selectedFirstItem() {
@@ -56,8 +65,9 @@ export class Game {
         this._allMatched = value;
     }
 
-    constructor(grid) {
+    constructor(grid, scoreElement) {
         this._grid = grid;
+        this._scoreElement = scoreElement;
     }
 
     start() {
@@ -70,11 +80,13 @@ export class Game {
     }
 
     end() {
-
+        this.grid.cleanGrid();
+        this._setScoreToDefault();
     }
 
     replay() {
-
+        this.end();
+        this.start();
     }
 
     pause() {
@@ -104,6 +116,7 @@ export class Game {
             this.selectedFirstItem.markGuessed();
             this.selectedSecondItem.markGuessed();
             this.allMatched = this.allMatched + 1;
+            this.scoreElement.innerText = this.allMatched;
         }
 
         console.log('this.allPairs: ', this.allPairs);
@@ -120,6 +133,15 @@ export class Game {
         });
         this.selectedFirstItem = null;
         this.selectedSecondItem = null;
+    };
+
+    _setScoreToDefault() {
+        this.selectedFirstItem = null;
+        this.selectedSecondItem = null;
+        this.isMatch = false;
+        this.allPairs = 0;
+        this.allMatched = 0;
+        this.scoreElement.innerText = this.allMatched;
     }
 
 

@@ -16,7 +16,7 @@ export class MatchGrid {
     _maxColumns = 4;
     _maxRows = 4;
     _maxTime = 1000;
-    _defaultThemeColor = '#002233';
+    _defaultThemeColor = '#656565';
     _defaultFontColor = '#000000';
     _gridGap = 5;
     _gridItems = [];
@@ -44,6 +44,11 @@ export class MatchGrid {
     createGrid() {
         this._setUpGrid();
         this._putItems();
+    }
+
+    cleanGrid() {
+        this._removeItems();
+
     }
 
     _normalizeWidth(width, limit) {
@@ -122,6 +127,11 @@ export class MatchGrid {
             gridItem.setTextToItem(idTextPairsMap.get(gridItemId), 36);
             this._grid.appendChild(gridItem);
         }
+    }
+
+    _removeItems() {
+        this.gridItems = [];
+        this._grid.innerHTML = '';
     }
 
 

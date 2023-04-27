@@ -6,13 +6,36 @@ window.onload = () => {
     const startBtn = document.querySelector("#start_btn");
     const endBtn = document.querySelector("#end_btn");
     const replayBtn = document.querySelector("#replay_btn");
+    const scoreElement = document.querySelector("#score-matches-number");
 
+    const gridProperty = {
+        width: 1000,
+        height: 1000,
+        columnsNumber: 4,
+        rowsNumber: 4,
+        timeLimit: 300,
+        themeColor: '#002233',
+        themeFont: '#000000',
+    }
+    const grid = new MatchGrid(gridProperty);
+    const game = new Game(grid, scoreElement);
     // const grid = document.querySelector("#playground-grid");
 
     customElements.define('grid-item', GridItem, {extends: 'div'});
 
-    const grid = new MatchGrid();
-    const game = new Game(grid);
+
+    startBtn.addEventListener('click', () => {
+        game.start()
+    });
+
+    endBtn.addEventListener('click', () => {
+        game.end()
+    });
+
+    replayBtn.addEventListener('click', () => {
+        game.replay()
+    });
+
     game.start();
 
 }
