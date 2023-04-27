@@ -89,7 +89,6 @@ export class MatchGrid {
         };
     }
 
-
     _setUpGrid() {
         const itemSize = this.gridItemSize;
         this._grid.style.width = this._width + 'px';
@@ -102,11 +101,19 @@ export class MatchGrid {
     }
 
     _putItems() {
-        for (let i = 0; i < this._countGridItems(); i++) {
-            const item = new GridItem(i, this.gridItemSize.width, this.gridItemSize.height);
-            this._grid.appendChild(item);
+        const gridItemIdsSet =  GridItem.getConsistentIdsSet(this._countGridItems());
+        const idTextPairsMap = GridItem.generateRandomIdPairsMap(gridItemIdsSet)
+        console.log('idTextPairs:', idTextPairsMap);
+
+
+        for (const gridItemId of gridItemIdsSet) {
+            const gridItem = new GridItem(gridItemId, this.gridItemSize.width, this.gridItemSize.height);
+            gridItem.setText(idTextPairsMap.get(gridItemId), 36);
+            this._grid.appendChild(gridItem);
         }
     }
+
+
 
     // _getItem() {
     //     const gridItem = new GridItem(this.gridItemSize.width, this.gridItemSize.height);
