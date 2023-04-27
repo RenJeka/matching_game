@@ -3,6 +3,7 @@ export class Game {
 
     _grid;
     _scoreHtmlElement;
+    _gameInProcess = false;
     _selectedFirstItem = null;
     _selectedSecondItem = null;
     _isMatch = false;
@@ -24,6 +25,15 @@ export class Game {
     set scoreElement(value) {
         this._scoreElement = value;
     }
+
+    get gameInProcess() {
+        return this._gameInProcess;
+    }
+
+    set gameInProcess(value) {
+        this._gameInProcess = value;
+    }
+
 
     get selectedFirstItem() {
         return this._selectedFirstItem;
@@ -72,16 +82,27 @@ export class Game {
 
     start() {
         // if finished — new grid
+        if (this.gameInProcess) {
+            const needRestartGame = confirm('Game in Process, would You like to restart the game?');
+            if (needRestartGame) {
+                this.replay();
+                return;
+            } else {
+                return;
+            }
+        }
         this.grid.createGrid();
         this.grid.gridItems.forEach((gridItem) => {
             gridItem.addEventListener('click', this._compareTwoItems.bind(this));
         });
         this.allPairs = this.grid.gridItems.length;
+        this.gameInProcess = true;
     }
 
     end() {
         this.grid.cleanGrid();
         this._setScoreToDefault();
+        this.gameInProcess = false;
     }
 
     replay() {
