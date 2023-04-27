@@ -66,7 +66,7 @@ export class MatchGrid {
             return userProposedItemsNumber;
         } else {
             return maxItems;
-        } - this._gridGap
+        }
     }
 
     get gridItemSize() {

@@ -9,6 +9,7 @@ export class GridItem extends HTMLDivElement{
     }
 
     static getConsistentIdsSet(numberOfGridItems = 0) {
+        // may implement with using Array or make more unique ids
         const consistentIdsSet = new Set();
         for (let i = 0; i < numberOfGridItems; i++) {
             consistentIdsSet.add(i);
@@ -31,7 +32,11 @@ export class GridItem extends HTMLDivElement{
     static getRandomTextSet(sizeOfSet= 1, idLength = 3) {
         const symbolsSet = new Set();
         for (let i = 0; i < sizeOfSet; i++) {
-            symbolsSet.add(GridItem.generateRandomText(idLength))
+            let uniqText = GridItem.generateRandomText(idLength);
+            while (symbolsSet.has(uniqText)) {
+                uniqText = GridItem.generateRandomText(idLength);
+            }
+            symbolsSet.add(uniqText);
         }
         return symbolsSet;
     }
@@ -41,22 +46,24 @@ export class GridItem extends HTMLDivElement{
         // Need half as much as the number of idSet to make pairs.
         const randomTextSet = GridItem.getRandomTextSet(Math.round(idSet.size / 2), textLength);
         const randomTextSetCopy = new Set(randomTextSet);
-        // TODO: Shuffle SET copy
-        let randomTextSetIterator = randomTextSet.values();
-        for (const id of idSet) {
-            let currentText = randomTextSetIterator.next();
-            if (currentText.done) {
-                randomTextSetIterator = randomTextSetCopy.values();
-                currentText = randomTextSetIterator.next();
-            }
-            randomIdPairs.set(id, currentText.value);
-        }
+        const shuffledTextArray = this.shuffleArray([...randomTextSet ].concat([...randomTextSetCopy]));
+
+        const idsSetIterator = idSet.values();
+        shuffledTextArray.forEach((text) => {
+            randomIdPairs.set(idsSetIterator.next().value, text);
+        });
+
         return randomIdPairs;
+    }
+
+    static shuffleArray(array) {
+        return array.sort(function () {
+            return Math.random() - 0.5;
+        });
     }
 
     setText(text, fontSize) {
         this.innerText = text.toString();
         this.style.fontSize = (Math.abs(parseInt(fontSize)) || 16) + 'px';
     }
-
 }

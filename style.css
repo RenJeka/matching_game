@@ -41,4 +41,5 @@ header button {
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
+    text-transform: uppercase;
 }
