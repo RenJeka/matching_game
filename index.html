@@ -10,12 +10,16 @@
     </head>
     <body>
         <header>
-            <h1>Matching game</h1>
-            <button id="start_btn">Start</button>
-            <button id="end_btn">End</button>
-            <button id="replay_btn">Replay</button>
-            <span class="score-matches">Matches: <span id="score-matches-number"></span></span>
-            <span>Timer: <span id="timer" class="timer"></span></span>
+            <div class="header-info">
+                <h1>Matching game</h1>
+                <span class="score-matches">Matches: <span id="score-matches-number"></span></span>
+                <span class="timer">Timer: <span id="timer"></span></span>
+            </div>
+            <div class="header-buttons">
+                <button id="start_btn">Start</button>
+                <button id="end_btn">End</button>
+                <button id="replay_btn">Replay</button>
+            </div>
         </header>
         <div class="match-grid" id="playground-grid">
 

@@ -22,11 +22,27 @@ header {
     height: var(--header-height);
     text-align: center;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+}
+
+.header-info,
+.header-buttons {
+    display: flex;
 }
 
 header button {
     margin: 0 10px;
+
+}
+
+.score-matches,
+.timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 15px;
 }
 
 
