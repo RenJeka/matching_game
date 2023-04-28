@@ -129,7 +129,6 @@ export class GridItem extends HTMLDivElement{
         if (this.selected) {
             this.classList.add('item-selected');
             anime({
-                // targets: event.target.querySelector('.grid-item_front'),
                 targets: this,
                 rotateY: {value: "-0.5turn"}, //"-=180"
                 duration: 350,
@@ -138,7 +137,6 @@ export class GridItem extends HTMLDivElement{
         } else {
             this.classList.remove('item-selected');
             anime({
-                // targets: event.target.querySelector('.grid-item_front'),
                 targets: this,
                 rotateY: {value: "0turn"}, //"+=180"
                 duration: 350,

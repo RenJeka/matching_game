@@ -14,18 +14,14 @@ window.onload = () => {
         height: 500,
         columnsNumber: 4,
         rowsNumber: 4,
-        timeLimit: 5,
+        timeLimit: 15,
         themeColor: '#d7fbac',
         themeFont: '#185a9d',
     }
     const grid = new MatchGrid(gridProperty);
     const game = new Game(grid, scoreElement);
 
-
-    // const grid = document.querySelector("#playground-grid");
-
     customElements.define('grid-item', GridItem, {extends: 'div'});
-
 
     startBtn.addEventListener('click', () => {
         game.start()
@@ -40,13 +36,5 @@ window.onload = () => {
     });
 
     game.start();
-
-    anime({
-        targets: '.grid-item',
-        translateX: 0,
-        rotate: '1turn',
-        backgroundColor: '#FFF',
-        duration: 800
-    });
 
 }

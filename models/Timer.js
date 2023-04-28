@@ -53,18 +53,26 @@ export class Timer{
     }
 
     pause() {
+        this.clear();
+    }
+
+    clear() {
         clearInterval(this.intervalId);
+    }
+
+    reset() {
+        this.clear();
+        this.timerElement.innerText = '0';
     }
 
     _tick() {
         if (this.seconds <= 0) {
             this.isCompleted = true;
             this.callbackFunc();
-            clearInterval(this.intervalId);
+            this.clear();
             return;
         }
         this.seconds = this.seconds - 1;
         this.timerElement.innerText = this.seconds;
-
     }
 }

@@ -1,4 +1,5 @@
 import {Timer} from './Timer.js';
+import anime from '../libs/anime.es.js';
 
 export class Game {
 
@@ -84,7 +85,6 @@ export class Game {
     constructor(grid, scoreElement) {
         this._grid = grid;
         this._scoreElement = scoreElement;
-        this._timer = new Timer(grid.timeLimit, this.timerFinished.bind(this));
         window.Game = this;
     }
 
@@ -93,19 +93,26 @@ export class Game {
         if (this.gameInProcess) {
             const needRestartGame = confirm('Game in Process, would You like to restart the game?');
             if (needRestartGame) {
-                this.replay();
+                setTimeout(this.replay.bind(this), 100);
                 return;
             } else {
                 return;
             }
         }
         this.grid.createGrid();
+        this._timer = new Timer(this.grid.timeLimit, this.timerFinished.bind(this));
         this.grid.gridItems.forEach((gridItem) => {
             gridItem.addEventListener('click', (event) => {
                 this._selectItemHandler(event)
 
             });
         });
+        anime({
+            targets: '.grid-item',
+            rotateZ: '1turn',
+            duration: 1000,
+            easing: 'linear'
+        }).play();
         this.allPairs = this.grid.gridItems.length / 2;
         this.gameInProcess = true;
         this.timer.start();
@@ -114,6 +121,7 @@ export class Game {
     end(additionalText = '') {
         if (this.gameInProcess) {
             alert(`${additionalText} Your score is: ${this.allMatched} pair(s) from ${this.allPairs} pairs!`);
+            this.timer.reset();
             this.grid.cleanGrid();
             this._setScoreToDefault();
             this.gameInProcess = false;
