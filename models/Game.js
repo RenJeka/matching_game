@@ -79,6 +79,7 @@ export class Game {
     constructor(grid, scoreElement) {
         this._grid = grid;
         this._scoreElement = scoreElement;
+        window.Game = this;
     }
 
     start() {
@@ -95,16 +96,8 @@ export class Game {
         this.grid.createGrid();
         this.grid.gridItems.forEach((gridItem) => {
             gridItem.addEventListener('click', (event) => {
-                    this._compareTwoItems(event)
-                if (event.target.selected) {
-                    anime({
-                        // targets: event.target.querySelector('.grid-item_front'),
-                        targets: event.target,
-                        rotateY: {value: "-=180", delay: 100},
-                        duration: 400,
-                        easing: 'easeInOutSine'
-                    }).play();
-                }
+                this._selectItemHandler(event)
+
             });
         });
         this.allPairs = this.grid.gridItems.length / 2;
@@ -129,23 +122,29 @@ export class Game {
 
     }
 
-    _compareTwoItems(event) {
+    _selectItemHandler(event) {
         const currentItem = event.target;
 
+        if (currentItem.isGuessed) {
+            return;
+        }
+
         if (!this.selectedFirstItem) {
-            this.selectedFirstItem = currentItem;
             currentItem.selectItem();
+            this.selectedFirstItem = currentItem;
         } else if (!this.selectedSecondItem) {
             if (this.selectedFirstItem && this.selectedFirstItem.id !== currentItem.id) {
+                currentItem.selectItem();
                 this.selectedSecondItem = currentItem;
                 this._handleMatches();
-                currentItem.selectItem();
                 this._checkGameOver();
             }
         } else {
             this._clearItems();
             this.selectedFirstItem = currentItem;
-            currentItem.selectItem();
+            setTimeout(() => {
+                currentItem.selectItem()
+            }, 600)
         }
     }
 
@@ -164,14 +163,7 @@ export class Game {
 
     _clearItems() {
         this.grid.gridItems.forEach((gridItem) => {
-            if (gridItem.selected && !gridItem.isGuessed) {
-                anime({
-                    targets: gridItem,
-                    rotateY: {value: "+=180", delay: 100},
-                    duration: 400,
-                    easing: 'easeInOutSine'
-                }).play();
-            }
+
             gridItem.unselectItem();
         });
         this.selectedFirstItem = null;

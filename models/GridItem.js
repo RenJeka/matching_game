@@ -1,3 +1,5 @@
+import anime from '../libs/anime.es.js';
+
 export class GridItem extends HTMLDivElement{
 
     _id;
@@ -122,16 +124,38 @@ export class GridItem extends HTMLDivElement{
         this.style.fontSize = (Math.abs(parseInt(fontSize)) || 16) + 'px';
     }
 
-    selectItem() {
-        this._toggleSelected();
+        selectItem() {
+        this.selected = !this.selected;
         if (this.selected) {
             this.classList.add('item-selected');
+            anime({
+                // targets: event.target.querySelector('.grid-item_front'),
+                targets: this,
+                rotateY: {value: "-0.5turn"}, //"-=180"
+                duration: 350,
+                easing: 'linear'
+            }).play();
         } else {
             this.classList.remove('item-selected');
+            anime({
+                // targets: event.target.querySelector('.grid-item_front'),
+                targets: this,
+                rotateY: {value: "0turn"}, //"+=180"
+                duration: 350,
+                easing: 'linear'
+            }).play();
         }
     }
 
     unselectItem() {
+        if (this.selected && !this.isGuessed) {
+            anime({
+                targets: this,
+                rotateY: {value: "0turn"}, // "+=180"
+                duration: 350,
+                easing: 'linear'
+            }).play();
+        }
         this.selected = false;
         this.classList.remove('item-selected');
     }
@@ -144,10 +168,6 @@ export class GridItem extends HTMLDivElement{
     unmarkGuessed() {
         this.isGuessed = false;
         this.classList.remove('item-guessed');
-    }
-
-    _toggleSelected(){
-        this.selected = !this.selected;
     }
 
     _appendItemSides() {
