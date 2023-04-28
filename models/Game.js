@@ -100,7 +100,7 @@ export class Game {
             }
         }
         this.grid.createGrid();
-        this._timer = new Timer(this.grid.timeLimit, this.timerFinished.bind(this));
+        this._timer = new Timer(this.grid.timeLimit, this.timerFinished.bind(this), this.grid.gridElement);
         this.grid.gridItems.forEach((gridItem) => {
             gridItem.addEventListener('click', (event) => {
                 this._selectItemHandler(event)

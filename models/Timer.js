@@ -5,6 +5,8 @@ export class Timer{
     _callbackFunc = null;
     _intervalId = null;
     _timerElement = document.querySelector('#timer');
+    _timerArea;
+    _inProcess = false;
 
     get seconds() {
         return this._seconds;
@@ -39,17 +41,35 @@ export class Timer{
         return this._timerElement;
     }
 
-    constructor(seconds, callbackFunc) {
+    get timerArea() {
+        return this._timerArea;
+    }
+
+
+    get inProcess() {
+        return this._inProcess;
+    }
+
+    set inProcess(value) {
+        this._inProcess = value;
+    }
+
+    constructor(seconds, callbackFunc, timerArea) {
         this._seconds = Math.abs(parseInt(seconds)) || 0;
         this._callbackFunc = callbackFunc;
         this._timerElement.innerHTML = this.seconds;
+        if (timerArea) {
+            timerArea.addEventListener('mouseleave', this._mouseLeaveHandler.bind(this));
+            timerArea.addEventListener('mouseenter', this._mouseEnterHandler.bind(this));
+        }
     }
 
     start() {
-        if (this.isCompleted) {
-
+        if (this.isCompleted || this.inProcess) {
+            return;
         }
-       this.intervalId = setInterval(this._tick.bind(this), 1000);
+        this.intervalId = setInterval(this._tick.bind(this), 1000);
+        this.inProcess = true;
     }
 
     pause() {
@@ -57,12 +77,26 @@ export class Timer{
     }
 
     clear() {
+        this.inProcess = false;
         clearInterval(this.intervalId);
     }
 
     reset() {
         this.clear();
         this.timerElement.innerText = '0';
+    }
+
+
+    _mouseLeaveHandler() {
+        if (this.inProcess) {
+            this.pause();
+        }
+    }
+
+    _mouseEnterHandler() {
+        if (!this.inProcess) {
+            this.start();
+        }
     }
 
     _tick() {

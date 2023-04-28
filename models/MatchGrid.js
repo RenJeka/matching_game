@@ -26,6 +26,11 @@ export class MatchGrid {
     _gridGap = 5;
     _gridItems = [];
 
+
+    get gridElement() {
+        return this._grid;
+    }
+
     get gridItems() {
         return this._gridItems;
     }
@@ -127,32 +132,30 @@ export class MatchGrid {
 
     _setUpGrid() {
         const itemSize = this.gridItemSize;
-        this._grid.style.width = this._width + 'px';
-        this._grid.style.height = this._height + 'px';
-        this._grid.style.gridTemplateColumns = `repeat(${this._columnsNumber }, ${itemSize.width}px)`;
-        this._grid.style.gridTemplateRows = `repeat(${this._rowsNumber}, ${itemSize.height}px)`;
-        this._grid.style.gap = `${this._gridGap}px`;
-        this._grid.style.backgroundColor = this._themeColor;
-        this._grid.style.color = this._themeFont;
+        this.gridElement.style.width = this._width + 'px';
+        this.gridElement.style.height = this._height + 'px';
+        this.gridElement.style.gridTemplateColumns = `repeat(${this._columnsNumber }, ${itemSize.width}px)`;
+        this.gridElement.style.gridTemplateRows = `repeat(${this._rowsNumber}, ${itemSize.height}px)`;
+        this.gridElement.style.gap = `${this._gridGap}px`;
+        this.gridElement.style.backgroundColor = this._themeColor;
+        this.gridElement.style.color = this._themeFont;
     }
 
     _putItems() {
         const gridItemIdsSet =  GridItem.getConsistentIdsSet(this._countGridItems());
         const idTextPairsMap = GridItem.generateRandomIdPairsMap(gridItemIdsSet)
-        console.log('idTextPairs:', idTextPairsMap);
-
 
         for (const gridItemId of gridItemIdsSet) {
             const gridItem = new GridItem(gridItemId, this.gridItemSize.width, this.gridItemSize.height);
             this._gridItems.push(gridItem);
             gridItem.setTextToItem(idTextPairsMap.get(gridItemId), 36);
-            this._grid.appendChild(gridItem);
+            this.gridElement.appendChild(gridItem);
         }
     }
 
     _removeItems() {
         this.gridItems = [];
-        this._grid.innerHTML = '';
+        this.gridElement.innerHTML = '';
     }
 
 
