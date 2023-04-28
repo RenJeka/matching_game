@@ -60,9 +60,16 @@ header button {
     backface-visibility: hidden;
 }
 
+.grid-item_front-text,
+.grid-item_back-text{
+    align-self: center;
+}
+
 .grid-item .grid-item_front {
     position: relative;
     overflow: hidden;
+    background: radial-gradient(#6dd5ed, #2193b0);
+
 }
 
 
@@ -71,7 +78,7 @@ header button {
     top: 0;
     left: 0;
     color: #fff;
-    background: #4b00ff;
+    background: #6dd5ed;
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);

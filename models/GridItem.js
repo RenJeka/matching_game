@@ -56,13 +56,7 @@ export class GridItem extends HTMLDivElement{
         // this.style.backgroundColor = color || '#ffffff';
         this.className = 'grid-item';
 
-        const frontSide = document.createElement('div');
-        frontSide.classList.add('grid-item_front');
-        this.appendChild(frontSide);
-        const backSide = document.createElement('div');
-        backSide.classList.add('grid-item_back');
-        backSide.innerText = id + 'back';
-        this.appendChild(backSide);
+        this._appendItemSides();
         this._id = id;
     }
 
@@ -121,10 +115,10 @@ export class GridItem extends HTMLDivElement{
     }
 
     setTextToItem(text, fontSize) {
-        const frontSide = this.querySelector('.grid-item_front');
+        const backSide = this.querySelector('.grid-item_back-text');
 
         this._text = text.toString();
-        frontSide.innerText = text.toString();
+        backSide.innerText = text.toString();
         this.style.fontSize = (Math.abs(parseInt(fontSize)) || 16) + 'px';
     }
 
@@ -154,5 +148,25 @@ export class GridItem extends HTMLDivElement{
 
     _toggleSelected(){
         this.selected = !this.selected;
+    }
+
+    _appendItemSides() {
+        const frontSide = document.createElement('div');
+        const frontSideText = document.createElement('span');
+        frontSide.classList.add('grid-item_front');
+        frontSideText.classList.add('grid-item_front-text');
+
+        frontSideText.innerText = 'FRONT ' + this.id;
+
+        frontSide.appendChild(frontSideText);
+        this.appendChild(frontSide);
+
+
+        const backSide = document.createElement('div');
+        const backSideText = document.createElement('span');
+        backSide.classList.add('grid-item_back');
+        backSideText.classList.add('grid-item_back-text');
+        backSide.appendChild(backSideText);
+        this.appendChild(backSide);
     }
 }
