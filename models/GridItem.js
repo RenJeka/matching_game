@@ -1,9 +1,19 @@
 export class GridItem extends HTMLDivElement{
 
+    _id;
     _isVisible = false;
     _isGuessed = false;
     _selected = false;
     _text = '';
+
+
+    get id() {
+        return this._id;
+    }
+
+    set id(value) {
+        this._id = value;
+    }
 
     get text() {
         return this._text.toUpperCase();
@@ -39,6 +49,7 @@ export class GridItem extends HTMLDivElement{
 
     constructor(id, width, height, color) {
         super();
+        this.id = id;
         this.setAttribute('id', id);
         this.style.width = parseInt(width) + 'px';
         this.style.height = parseInt(height) + 'px';
@@ -52,6 +63,7 @@ export class GridItem extends HTMLDivElement{
         backSide.classList.add('grid-item_back');
         backSide.innerText = id + 'back';
         this.appendChild(backSide);
+        this._id = id;
     }
 
     static getConsistentIdsSet(numberOfGridItems = 0) {

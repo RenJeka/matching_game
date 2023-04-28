@@ -146,22 +146,22 @@ export class Game {
     }
 
     _compareTwoItems(event) {
-        event.stopPropagation()
-        // select 2 items
-        // show match in console
-        const gridItem = event.target;
-        console.log('id:', event.target.getAttribute('id'));
+        const currentItem = event.target;
 
         if (!this.selectedFirstItem) {
-            this.selectedFirstItem = event.target;
+            this.selectedFirstItem = currentItem;
+            currentItem.selectItem();
         } else if (!this.selectedSecondItem) {
-            this.selectedSecondItem = event.target;
-            this._handleMatches();
+            if (this.selectedFirstItem && this.selectedFirstItem.id !== currentItem.id) {
+                this.selectedSecondItem = currentItem;
+                this._handleMatches();
+                currentItem.selectItem();
+            }
         } else {
             this._clearItems();
-            this.selectedFirstItem = event.target;
+            this.selectedFirstItem = currentItem;
+            currentItem.selectItem();
         }
-        gridItem.selectItem();
     }
 
     _handleMatches() {
