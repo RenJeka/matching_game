@@ -9,19 +9,18 @@ window.onload = () => {
     const replayBtn = document.querySelector("#replay_btn");
     const scoreElement = document.querySelector("#score-matches-number");
 
-
-
     const gridProperty = {
         width: 500,
         height: 500,
         columnsNumber: 4,
         rowsNumber: 4,
-        timeLimit: 300,
+        timeLimit: 5,
         themeColor: '#d7fbac',
         themeFont: '#185a9d',
     }
     const grid = new MatchGrid(gridProperty);
     const game = new Game(grid, scoreElement);
+
 
     // const grid = document.querySelector("#playground-grid");
 

@@ -34,6 +34,10 @@ export class MatchGrid {
         this._gridItems = value;
     }
 
+    get timeLimit() {
+        return this._timeLimit;
+    }
+
     constructor({width, height, columnsNumber, rowsNumber, timeLimit, themeColor, themeFont}) {
 
         this._columnsNumber = this._normalizeInteger(columnsNumber, this._minColumns, this._maxColumns);
@@ -43,8 +47,8 @@ export class MatchGrid {
         this._height = this._normalizeHeight(height, this._minHeight, this._maxHeight);
         this._themeColor = this._normalizeColor(themeColor, this._defaultThemeColor) ;
         this._themeFont = this._normalizeColor(themeFont, this._defaultFontColor) ;
+        this._timeLimit = timeLimit;
     }
-
 
     createGrid() {
         this._setUpGrid();

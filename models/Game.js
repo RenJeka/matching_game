@@ -1,4 +1,4 @@
-import anime from "../libs/anime.es.js";
+import {Timer} from './Timer.js';
 
 export class Game {
 
@@ -10,6 +10,7 @@ export class Game {
     _isMatch = false;
     _allPairs = 0;
     _allMatched = 0;
+    _timer;
 
     get grid() {
         return this._grid;
@@ -76,9 +77,14 @@ export class Game {
         this._allMatched = value;
     }
 
+    get timer() {
+        return this._timer;
+    }
+
     constructor(grid, scoreElement) {
         this._grid = grid;
         this._scoreElement = scoreElement;
+        this._timer = new Timer(grid.timeLimit, this.timerFinished.bind(this));
         window.Game = this;
     }
 
@@ -102,6 +108,7 @@ export class Game {
         });
         this.allPairs = this.grid.gridItems.length / 2;
         this.gameInProcess = true;
+        this.timer.start();
     }
 
     end(additionalText = '') {
@@ -118,8 +125,8 @@ export class Game {
         this.start();
     }
 
-    pause() {
-
+    timerFinished() {
+        this.end('Times is finished! ');
     }
 
     _selectItemHandler(event) {
