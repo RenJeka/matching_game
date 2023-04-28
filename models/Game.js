@@ -1,3 +1,4 @@
+import anime from "../libs/anime.es.js";
 
 export class Game {
 
@@ -93,7 +94,37 @@ export class Game {
         }
         this.grid.createGrid();
         this.grid.gridItems.forEach((gridItem) => {
-            gridItem.addEventListener('click', this._compareTwoItems.bind(this));
+            gridItem.addEventListener('click', (event) => {
+                    this._compareTwoItems(event)
+                if (event.target.selected) {
+                    // tslint:disable-next-line:no-console
+                    console.log('selected');
+
+                    anime({
+                        // targets: event.target.querySelector('.grid-item_front'),
+                        targets: event.target,
+                        rotateY: {value: "-=180", delay: 100},
+                        duration: 400,
+                        easing: 'easeInOutSine'
+                    }).play();
+                } else {
+                    console.log('unselected');
+                    // anime({
+                    //     targets: event.target.querySelector('.grid-item_front'),
+                    //     rotateY: {value: "+=180"},
+                    //     duration: 800,
+                    //     easing: 'easeInOutSine'
+                    // }).play();
+                }
+
+            });
+            //
+            // gridItem.addEventListener('click', anime({
+            //     targets: gridItem,
+            //     rotateY: {value: "+=180"},
+            //     duration: 800,
+            //     easing: 'easeInOutSine'
+            // }).play);
         });
         this.allPairs = this.grid.gridItems.length;
         this.gameInProcess = true;
@@ -115,6 +146,7 @@ export class Game {
     }
 
     _compareTwoItems(event) {
+        event.stopPropagation()
         // select 2 items
         // show match in console
         const gridItem = event.target;

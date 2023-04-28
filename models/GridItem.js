@@ -42,8 +42,16 @@ export class GridItem extends HTMLDivElement{
         this.setAttribute('id', id);
         this.style.width = parseInt(width) + 'px';
         this.style.height = parseInt(height) + 'px';
-        this.style.backgroundColor = color || '#ffffff';
+        // this.style.backgroundColor = color || '#ffffff';
         this.className = 'grid-item';
+
+        const frontSide = document.createElement('div');
+        frontSide.classList.add('grid-item_front');
+        this.appendChild(frontSide);
+        const backSide = document.createElement('div');
+        backSide.classList.add('grid-item_back');
+        backSide.innerText = id + 'back';
+        this.appendChild(backSide);
     }
 
     static getConsistentIdsSet(numberOfGridItems = 0) {
@@ -55,7 +63,7 @@ export class GridItem extends HTMLDivElement{
         return consistentIdsSet;
     }
 
-    static generateRandomText(textLength, characters= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
+    static generateRandomText(textLength, characters= '0123456789') {
         characters = Array.isArray(characters) ? characters.join('') : characters.toString();
         let result = '';
         const charactersLength = characters.length;
@@ -101,15 +109,17 @@ export class GridItem extends HTMLDivElement{
     }
 
     setTextToItem(text, fontSize) {
+        const frontSide = this.querySelector('.grid-item_front');
+
         this._text = text.toString();
-        this.innerText = text.toString();
+        frontSide.innerText = text.toString();
         this.style.fontSize = (Math.abs(parseInt(fontSize)) || 16) + 'px';
     }
 
     selectItem() {
         this._toggleSelected();
         if (this.selected) {
-            this.classList.toggle('item-selected');
+            this.classList.add('item-selected');
         } else {
             this.classList.remove('item-selected');
         }
