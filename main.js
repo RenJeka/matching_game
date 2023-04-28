@@ -12,13 +12,13 @@ window.onload = () => {
 
 
     const gridProperty = {
-        width: 1000,
-        height: 1000,
+        width: 500,
+        height: 500,
         columnsNumber: 4,
         rowsNumber: 4,
         timeLimit: 300,
-        themeColor: '#002233',
-        themeFont: '#000000',
+        themeColor: '#d7fbac',
+        themeFont: '#185a9d',
     }
     const grid = new MatchGrid(gridProperty);
     const game = new Game(grid, scoreElement);

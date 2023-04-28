@@ -155,9 +155,6 @@ export class GridItem extends HTMLDivElement{
         const frontSideText = document.createElement('span');
         frontSide.classList.add('grid-item_front');
         frontSideText.classList.add('grid-item_front-text');
-
-        frontSideText.innerText = 'FRONT ' + this.id;
-
         frontSide.appendChild(frontSideText);
         this.appendChild(frontSide);
 

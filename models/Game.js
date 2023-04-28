@@ -97,9 +97,6 @@ export class Game {
             gridItem.addEventListener('click', (event) => {
                     this._compareTwoItems(event)
                 if (event.target.selected) {
-                    // tslint:disable-next-line:no-console
-                    console.log('selected');
-
                     anime({
                         // targets: event.target.querySelector('.grid-item_front'),
                         targets: event.target,
@@ -107,33 +104,20 @@ export class Game {
                         duration: 400,
                         easing: 'easeInOutSine'
                     }).play();
-                } else {
-                    console.log('unselected');
-                    // anime({
-                    //     targets: event.target.querySelector('.grid-item_front'),
-                    //     rotateY: {value: "+=180"},
-                    //     duration: 800,
-                    //     easing: 'easeInOutSine'
-                    // }).play();
                 }
-
             });
-            //
-            // gridItem.addEventListener('click', anime({
-            //     targets: gridItem,
-            //     rotateY: {value: "+=180"},
-            //     duration: 800,
-            //     easing: 'easeInOutSine'
-            // }).play);
         });
-        this.allPairs = this.grid.gridItems.length;
+        this.allPairs = this.grid.gridItems.length / 2;
         this.gameInProcess = true;
     }
 
-    end() {
-        this.grid.cleanGrid();
-        this._setScoreToDefault();
-        this.gameInProcess = false;
+    end(additionalText = '') {
+        if (this.gameInProcess) {
+            alert(`${additionalText} Your score is: ${this.allMatched} pair(s) from ${this.allPairs} pairs!`);
+            this.grid.cleanGrid();
+            this._setScoreToDefault();
+            this.gameInProcess = false;
+        }
     }
 
     replay() {
@@ -156,6 +140,7 @@ export class Game {
                 this.selectedSecondItem = currentItem;
                 this._handleMatches();
                 currentItem.selectItem();
+                this._checkGameOver();
             }
         } else {
             this._clearItems();
@@ -171,9 +156,6 @@ export class Game {
             this.allMatched = this.allMatched + 1;
             this.scoreElement.innerText = this.allMatched;
         }
-
-        console.log('this.allPairs: ', this.allPairs);
-        console.log('this.allMatched: ', this.allMatched);
     }
 
     _checkMatchItems() {
@@ -205,5 +187,12 @@ export class Game {
         this.scoreElement.innerText = this.allMatched;
     }
 
+    _checkGameOver() {
+        if (this.allPairs === this.allMatched) {
+            setTimeout(() => {
+                this.end('Congratulation! ');
+            }, 1000)
+        }
+    }
 
 };

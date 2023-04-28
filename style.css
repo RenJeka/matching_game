@@ -31,6 +31,7 @@ header button {
 
 
 .match-grid {
+    margin: 5vh auto 0 auto;
     display: grid;
     padding: 50px;
     box-sizing: content-box;
@@ -77,8 +78,8 @@ header button {
     position: absolute;
     top: 0;
     left: 0;
-    color: #000;
     background: #6dd5ed;
+    font-family: 'Brush Script MT', cursive;
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);

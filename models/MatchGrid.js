@@ -13,9 +13,14 @@ export class MatchGrid {
     _themeFont;
     _maxWidth = 1000;
     _maxHeight = 1000;
-    _maxColumns = 4;
-    _maxRows = 4;
+    _maxColumns = 20;
+    _maxRows = 20;
     _maxTime = 1000;
+    _minWidth = 100;
+    _minHeight = 100;
+    _minColumns = 2;
+    _minRows = 2;
+    _minTime = 15;
     _defaultThemeColor = '#656565';
     _defaultFontColor = '#000000';
     _gridGap = 5;
@@ -29,13 +34,13 @@ export class MatchGrid {
         this._gridItems = value;
     }
 
-    constructor(width, height, columnsNumber, rowsNumber, timeLimit, themeColor, themeFont) {
+    constructor({width, height, columnsNumber, rowsNumber, timeLimit, themeColor, themeFont}) {
 
-        this._columnsNumber = this._normalizeInteger(columnsNumber, this._maxColumns);
-        this._rowsNumber = this._normalizeInteger(rowsNumber, this._maxRows);
-        this._timeLimit = this._normalizeInteger(timeLimit, this._maxTime);
-        this._width = this._normalizeWidth(width, this._maxWidth);
-        this._height = this._normalizeHeight(height, this._maxHeight);
+        this._columnsNumber = this._normalizeInteger(columnsNumber, this._minColumns, this._maxColumns);
+        this._rowsNumber = this._normalizeInteger(rowsNumber, this._minRows, this._maxRows);
+        this._timeLimit = this._normalizeInteger(timeLimit, this._minTime, this._maxTime);
+        this._width = this._normalizeWidth(width, this._minWidth, this._maxWidth);
+        this._height = this._normalizeHeight(height, this._minHeight, this._maxHeight);
         this._themeColor = this._normalizeColor(themeColor, this._defaultThemeColor) ;
         this._themeFont = this._normalizeColor(themeFont, this._defaultFontColor) ;
     }
@@ -61,10 +66,22 @@ export class MatchGrid {
         return gridHeight + (this. _rowsNumber * this._gridGap);
     }
 
-    _normalizeInteger(number, limit) {
+    _normalizeInteger(number, limitBottom, limitTop) {
         const currentNumber = parseInt(number);
-        if (isNaN(currentNumber) || Math.abs(currentNumber) > limit) {
-            return limit;
+
+        if (isNaN(currentNumber)) {
+            console.warn(`You passed incorrect number in Grid settings! Number ${number} changed to ${limitBottom}`);
+            return limitBottom;
+        }
+
+        if (Math.abs(currentNumber) < limitBottom) {
+            console.warn(`You passed too low number in Grid settings! Number ${number} changed to ${limitBottom}`);
+            return limitBottom;
+        }
+
+        if (Math.abs(currentNumber) > limitTop) {
+            console.warn(`You passed too high number in Grid settings! Number ${number} changed to ${limitTop}`);
+            return limitTop;
         }
         return Math.abs(parseInt(number));
     }
