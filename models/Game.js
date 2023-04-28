@@ -182,6 +182,14 @@ export class Game {
 
     _clearItems() {
         this.grid.gridItems.forEach((gridItem) => {
+            if (gridItem.selected && !gridItem.isGuessed) {
+                anime({
+                    targets: gridItem,
+                    rotateY: {value: "+=180", delay: 100},
+                    duration: 400,
+                    easing: 'easeInOutSine'
+                }).play();
+            }
             gridItem.unselectItem();
         });
         this.selectedFirstItem = null;
