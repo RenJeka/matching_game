@@ -15,7 +15,7 @@ window.onload = () => {
         rowsNumber: 4,
         timeLimit: 90,
         themeColor: '#d7fbac',
-        themeFont: '#185a9d',
+        fontColor: '#185a9d',
         fontSize: 36
     }
     const grid = new MatchGrid(gridProperty);

@@ -10,7 +10,7 @@ export class MatchGrid {
     _rowsNumber;
     _timeLimit;
     _themeColor;
-    _themeFont;
+    _fontColor;
     _fontSize;
     _maxWidth = 1000;
     _maxHeight = 1000;
@@ -46,7 +46,7 @@ export class MatchGrid {
         return this._timeLimit;
     }
 
-    constructor({width, height, columnsNumber, rowsNumber, timeLimit, themeColor, themeFont, fontSize}) {
+    constructor({width, height, columnsNumber, rowsNumber, timeLimit, themeColor, fontColor, fontSize}) {
 
         this._columnsNumber = this._normalizeInteger(columnsNumber, this._minColumns, this._maxColumns);
         this._rowsNumber = this._normalizeInteger(rowsNumber, this._minRows, this._maxRows);
@@ -55,7 +55,7 @@ export class MatchGrid {
         this._height = this._normalizeHeight(height, this._minHeight, this._maxHeight);
         this._fontSize = this._normalizeInteger(fontSize, this._minFontSize, this._maxFontSize);
         this._themeColor = this._normalizeColor(themeColor, this._defaultThemeColor);
-        this._themeFont = this._normalizeColor(themeFont, this._defaultFontColor);
+        this._fontColor = this._normalizeColor(fontColor, this._defaultFontColor);
         this._timeLimit = timeLimit;
     }
 
@@ -71,12 +71,12 @@ export class MatchGrid {
 
     _normalizeWidth(width, minLimit, maxLimit) {
         const gridWidth = this._normalizeInteger(width, minLimit, maxLimit);
-        return gridWidth + (this._columnsNumber * this._gridGap);
+        return gridWidth + ((this._columnsNumber - 1) * this._gridGap);
     }
 
     _normalizeHeight(height, minLimit, maxLimit) {
         const gridHeight = this._normalizeInteger(height, minLimit, maxLimit);
-        return gridHeight + (this._rowsNumber * this._gridGap);
+        return gridHeight + ((this._rowsNumber - 1) * this._gridGap);
     }
 
     _normalizeInteger(number, limitBottom, limitTop) {
@@ -119,8 +119,8 @@ export class MatchGrid {
     }
 
     get gridItemSize() {
-        let itemWidth = Math.round(this._width / this._columnsNumber) - this._gridGap;
-        let itemHeight = Math.round(this._height / this._rowsNumber) - this._gridGap;
+        let itemWidth = Math.round((this._width - this._gridGap * (this._columnsNumber - 1)) / this._columnsNumber);
+        let itemHeight = Math.round((this._height  - this._gridGap * (this._rowsNumber - 1)) / this._rowsNumber);
         const MINIMAL_ITEM_WIDTH = 20;
         const MINIMAL_ITEM_HEIGHT = 20;
 
@@ -146,7 +146,7 @@ export class MatchGrid {
         this.gridElement.style.gridTemplateRows = `repeat(${this._rowsNumber}, ${itemSize.height}px)`;
         this.gridElement.style.gap = `${this._gridGap}px`;
         this.gridElement.style.backgroundColor = this._themeColor;
-        this.gridElement.style.color = this._themeFont;
+        this.gridElement.style.color = this._fontColor;
     }
 
     _putItems() {
