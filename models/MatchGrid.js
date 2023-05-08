@@ -28,6 +28,10 @@ export class MatchGrid {
     _defaultFontColor = '#000000';
     _gridGap = 5;
     _gridItems = [];
+    _gridItemSize = {
+        height: 0,
+        width: 0
+    }
 
 
     get gridElement() {
@@ -57,6 +61,7 @@ export class MatchGrid {
         this._themeColor = this._normalizeColor(themeColor, this._defaultThemeColor);
         this._fontColor = this._normalizeColor(fontColor, this._defaultFontColor);
         this._timeLimit = timeLimit;
+        this._gridItemSize = this._getGridItemSize()
     }
 
     createGrid() {
@@ -80,7 +85,7 @@ export class MatchGrid {
     }
 
     _normalizeInteger(number, limitBottom, limitTop) {
-        const currentNumber = parseInt(number);
+        const currentNumber = Math.abs(parseInt(number));
 
         if (isNaN(currentNumber)) {
             console.warn(`You passed incorrect number in Grid settings! Number ${number} changed to ${limitBottom}`);
@@ -96,7 +101,7 @@ export class MatchGrid {
             console.warn(`You passed too high number in Grid settings! Number ${number} changed to ${limitTop}`);
             return limitTop;
         }
-        return Math.abs(parseInt(number));
+        return currentNumber;
     }
 
     _normalizeColor(strColor, defaultColor) {
@@ -118,7 +123,7 @@ export class MatchGrid {
         }
     }
 
-    get gridItemSize() {
+    _getGridItemSize() {
         let itemWidth = Math.round((this._width - this._gridGap * (this._columnsNumber - 1)) / this._columnsNumber);
         let itemHeight = Math.round((this._height  - this._gridGap * (this._rowsNumber - 1)) / this._rowsNumber);
         const MINIMAL_ITEM_WIDTH = 20;
@@ -139,7 +144,7 @@ export class MatchGrid {
     }
 
     _setUpGrid() {
-        const itemSize = this.gridItemSize;
+        const itemSize = this._gridItemSize;
         this.gridElement.style.width = this._width + 'px';
         this.gridElement.style.height = this._height + 'px';
         this.gridElement.style.gridTemplateColumns = `repeat(${this._columnsNumber}, ${itemSize.width}px)`;
@@ -154,7 +159,7 @@ export class MatchGrid {
         const idTextPairsMap = GridItem.generateRandomIdPairsMap(gridItemIdsSet)
 
         for (const gridItemId of gridItemIdsSet) {
-            const gridItem = new GridItem(gridItemId, this.gridItemSize.width, this.gridItemSize.height);
+            const gridItem = new GridItem(gridItemId, this._gridItemSize.width, this._gridItemSize.height);
             this._gridItems.push(gridItem);
             gridItem.setTextToItem(idTextPairsMap.get(gridItemId), this._fontSize);
             this.gridElement.appendChild(gridItem);
