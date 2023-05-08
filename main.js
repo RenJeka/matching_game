@@ -16,6 +16,7 @@ window.onload = () => {
         timeLimit: 90,
         themeColor: '#d7fbac',
         themeFont: '#185a9d',
+        fontSize: 36
     }
     const grid = new MatchGrid(gridProperty);
     const game = new Game(grid, scoreElement);

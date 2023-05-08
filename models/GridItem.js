@@ -120,7 +120,7 @@ export class GridItem extends HTMLDivElement{
 
         this._text = text.toString();
         backSide.innerText = text.toString();
-        this.style.fontSize = (Math.abs(parseInt(fontSize)) || 16) + 'px';
+        this.style.fontSize = fontSize + 'px';
     }
 
         selectItem() {

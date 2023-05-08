@@ -11,6 +11,7 @@ export class MatchGrid {
     _timeLimit;
     _themeColor;
     _themeFont;
+    _fontSize;
     _maxWidth = 1000;
     _maxHeight = 1000;
     _maxColumns = 20;
@@ -21,6 +22,8 @@ export class MatchGrid {
     _minColumns = 2;
     _minRows = 2;
     _minTime = 15;
+    _minFontSize = 5;
+    _maxFontSize = 60;
     _defaultThemeColor = '#656565';
     _defaultFontColor = '#000000';
     _gridGap = 5;
@@ -43,13 +46,14 @@ export class MatchGrid {
         return this._timeLimit;
     }
 
-    constructor({width, height, columnsNumber, rowsNumber, timeLimit, themeColor, themeFont}) {
+    constructor({width, height, columnsNumber, rowsNumber, timeLimit, themeColor, themeFont, fontSize}) {
 
         this._columnsNumber = this._normalizeInteger(columnsNumber, this._minColumns, this._maxColumns);
         this._rowsNumber = this._normalizeInteger(rowsNumber, this._minRows, this._maxRows);
         this._timeLimit = this._normalizeInteger(timeLimit, this._minTime, this._maxTime);
         this._width = this._normalizeWidth(width, this._minWidth, this._maxWidth);
         this._height = this._normalizeHeight(height, this._minHeight, this._maxHeight);
+        this._fontSize = this._normalizeInteger(fontSize, this._minFontSize, this._maxFontSize);
         this._themeColor = this._normalizeColor(themeColor, this._defaultThemeColor);
         this._themeFont = this._normalizeColor(themeFont, this._defaultFontColor);
         this._timeLimit = timeLimit;
@@ -65,13 +69,13 @@ export class MatchGrid {
 
     }
 
-    _normalizeWidth(width, limit) {
-        const gridWidth = this._normalizeInteger(width, limit);
+    _normalizeWidth(width, minLimit, maxLimit) {
+        const gridWidth = this._normalizeInteger(width, minLimit, maxLimit);
         return gridWidth + (this._columnsNumber * this._gridGap);
     }
 
-    _normalizeHeight(height, limit) {
-        const gridHeight = this._normalizeInteger(height, limit);
+    _normalizeHeight(height, minLimit, maxLimit) {
+        const gridHeight = this._normalizeInteger(height, minLimit, maxLimit);
         return gridHeight + (this._rowsNumber * this._gridGap);
     }
 
@@ -152,7 +156,7 @@ export class MatchGrid {
         for (const gridItemId of gridItemIdsSet) {
             const gridItem = new GridItem(gridItemId, this.gridItemSize.width, this.gridItemSize.height);
             this._gridItems.push(gridItem);
-            gridItem.setTextToItem(idTextPairsMap.get(gridItemId), 36);
+            gridItem.setTextToItem(idTextPairsMap.get(gridItemId), this._fontSize);
             this.gridElement.appendChild(gridItem);
         }
     }
